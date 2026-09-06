@@ -6,7 +6,7 @@ Users can enter their name, join the chat, send messages in real time, and see t
 
 ## 📸 Preview
 
-![Real-Time Chat Application](chats.png)
+![Real-Time Chat Application](./screenshots/chats.png)
 
 ## 🚀 Features
 
