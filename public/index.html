@@ -2,237 +2,43 @@
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <title>ChatFlow - Real Time Chat</title>
 
-    <title>Real-Time Chat Application</title>
-
-    <style>
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f6f8;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            min-height: 100vh;
-        }
-
-        .chat-container {
-            width: 450px;
-            background: white;
-
-            border-radius: 12px;
-
-            box-shadow:
-                0 5px 20px rgba(0, 0, 0, 0.15);
-
-            overflow: hidden;
-        }
-
-        /* Header */
-
-        .chat-header {
-            background: #2563eb;
-            color: white;
-
-            padding: 20px;
-
-            text-align: center;
-        }
-
-        .chat-header h1 {
-            font-size: 24px;
-            margin-bottom: 8px;
-        }
-
-        .status {
-            font-size: 14px;
-        }
-
-        /* Room */
-
-        .room-info {
-            padding: 10px 15px;
-
-            background: #eef2ff;
-
-            text-align: center;
-
-            font-size: 14px;
-        }
-
-        /* Chat */
-
-        #chat {
-            height: 350px;
-
-            padding: 15px;
-
-            overflow-y: auto;
-
-            display: flex;
-            flex-direction: column;
-        }
-
-        .msg {
-            padding: 10px 14px;
-
-            margin: 5px 0;
-
-            border-radius: 12px;
-
-            max-width: 75%;
-
-            word-wrap: break-word;
-        }
-
-        .right {
-            background: #2563eb;
-            color: white;
-
-            align-self: flex-end;
-
-            border-bottom-right-radius: 2px;
-        }
-
-        .left {
-            background: #e5e7eb;
-            color: black;
-
-            align-self: flex-start;
-
-            border-bottom-left-radius: 2px;
-        }
-
-        .system-message {
-            text-align: center;
-
-            color: #6b7280;
-
-            font-size: 13px;
-
-            margin: 8px;
-        }
-
-        /* Input Area */
-
-        .input-area {
-            display: flex;
-
-            padding: 15px;
-
-            border-top: 1px solid #ddd;
-
-            gap: 10px;
-        }
-
-        #msg {
-            flex: 1;
-
-            padding: 12px;
-
-            border: 1px solid #ccc;
-
-            border-radius: 8px;
-
-            outline: none;
-
-            font-size: 15px;
-        }
-
-        #msg:focus {
-            border-color: #2563eb;
-        }
-
-        button {
-            padding: 12px 20px;
-
-            background: #2563eb;
-
-            color: white;
-
-            border: none;
-
-            border-radius: 8px;
-
-            cursor: pointer;
-
-            font-size: 15px;
-        }
-
-        button:hover {
-            background: #1d4ed8;
-        }
-
-    </style>
-
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
-    <div class="chat-container">
+    <!-- JOIN SCREEN -->
 
-        <!-- Header -->
+    <div class="join-page" id="joinPage">
 
-        <div class="chat-header">
+        <div class="join-card">
 
-            <h1>Real-Time Chat</h1>
-
-            <div class="status">
-
-                <span id="count">
-                    0 users online
-                </span>
-
+            <div class="chat-logo">
+                💬
             </div>
 
-        </div>
+            <h1>ChatFlow</h1>
 
+            <p class="subtitle">
+                Simple real-time communication
+            </p>
 
-        <!-- Room Information -->
-
-        <div class="room-info">
-
-            <span id="room">
-                Connecting...
-            </span>
-
-        </div>
-
-
-        <!-- Chat Messages -->
-
-        <div id="chat"></div>
-
-
-        <!-- Input -->
-
-        <div class="input-area">
+            <label>Enter your name</label>
 
             <input
-                id="msg"
                 type="text"
-                placeholder="Enter your message..."
-                autocomplete="off"
+                id="nameInput"
+                placeholder="e.g. Aditi"
+                maxlength="20"
             >
 
-            <button onclick="sendMsg()">
-                Send
+            <button id="joinButton">
+                Join Chat
             </button>
 
         </div>
@@ -240,207 +46,79 @@
     </div>
 
 
-    <!-- Socket.IO -->
+    <!-- CHAT APPLICATION -->
+
+    <div class="chat-page" id="chatPage">
+
+        <div class="chat-container">
+
+            <!-- HEADER -->
+
+            <header class="chat-header">
+
+                <div class="brand">
+
+                    <div class="brand-icon">
+                        💬
+                    </div>
+
+                    <div>
+                        <h2>ChatFlow</h2>
+                        <p>Real-Time Chat</p>
+                    </div>
+
+                </div>
+
+                <div class="online">
+
+                    <span class="online-dot"></span>
+
+                    <span id="userCount">
+                        0
+                    </span>
+
+                    Online
+
+                </div>
+
+            </header>
+
+
+            <!-- CHAT AREA -->
+
+            <main class="chat-messages" id="chatMessages">
+
+                <div class="empty-message">
+                    Start a conversation 👋
+                </div>
+
+            </main>
+
+
+            <!-- MESSAGE INPUT -->
+
+            <div class="message-area">
+
+                <input
+                    type="text"
+                    id="messageInput"
+                    placeholder="Type a message..."
+                    autocomplete="off"
+                >
+
+                <button id="sendButton">
+                    Send
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
 
     <script src="/socket.io/socket.io.js"></script>
-
-
-    <script>
-
-        // Connect with Socket.IO server
-
-        const socket = io();
-
-
-        /*
-        -----------------------------------
-        GET DOM ELEMENTS
-        -----------------------------------
-        */
-
-        const chat = document.getElementById("chat");
-
-        const messageInput =
-            document.getElementById("msg");
-
-        const userCount =
-            document.getElementById("count");
-
-        const roomElement =
-            document.getElementById("room");
-
-
-        /*
-        -----------------------------------
-        SEND MESSAGE
-        -----------------------------------
-        */
-
-        function sendMsg() {
-
-            const message =
-                messageInput.value.trim();
-
-
-            // Do not send empty message
-
-            if (message === "") {
-                return;
-            }
-
-
-            // Send message to server
-
-            socket.emit("client", message);
-
-
-            // Clear input
-
-            messageInput.value = "";
-
-
-            // Focus input again
-
-            messageInput.focus();
-
-        }
-
-
-        /*
-        -----------------------------------
-        PRESS ENTER TO SEND
-        -----------------------------------
-        */
-
-        messageInput.addEventListener(
-            "keydown",
-            function(event) {
-
-                if (event.key === "Enter") {
-
-                    sendMsg();
-
-                }
-
-            }
-        );
-
-
-        /*
-        -----------------------------------
-        RECEIVE MESSAGE
-        -----------------------------------
-        */
-
-        socket.on("reply", function(data) {
-
-            const div =
-                document.createElement("div");
-
-
-            div.classList.add("msg");
-
-
-            /*
-            Check sender
-            */
-
-            if (data.user === "Me") {
-
-                div.classList.add("right");
-
-            } else {
-
-                div.classList.add("left");
-
-            }
-
-
-            /*
-            Display message
-            */
-
-            div.textContent =
-                `${data.user}: ${data.text}`;
-
-
-            /*
-            Add message to chat
-            */
-
-            chat.appendChild(div);
-
-
-            /*
-            Scroll to latest message
-            */
-
-            chat.scrollTop =
-                chat.scrollHeight;
-
-        });
-
-
-        /*
-        -----------------------------------
-        ONLINE USERS
-        -----------------------------------
-        */
-
-        socket.on("users", function(count) {
-
-            userCount.textContent =
-                `${count} users online`;
-
-        });
-
-
-        /*
-        -----------------------------------
-        ROOM INFORMATION
-        -----------------------------------
-        */
-
-        socket.on("roomInfo", function(data) {
-
-            roomElement.textContent =
-                `You are in ${data.room}`;
-
-        });
-
-
-        /*
-        -----------------------------------
-        SYSTEM MESSAGE
-        -----------------------------------
-        */
-
-        socket.on(
-            "systemMessage",
-            function(message) {
-
-                const div =
-                    document.createElement("div");
-
-
-                div.classList.add(
-                    "system-message"
-                );
-
-
-                div.textContent = message;
-
-
-                chat.appendChild(div);
-
-
-                chat.scrollTop =
-                    chat.scrollHeight;
-
-            }
-        );
-
-    </script>
+    <script src="script.js"></script>
 
 </body>
 
